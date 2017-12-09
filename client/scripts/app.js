@@ -2,6 +2,9 @@
 
 // $.get('http://parse.sfm8.hackreactor.com/chatterbox/classes/messages')
 
+$(document).ready(function() {
+  app.init();
+});
 
 var message = {
   username: 'shawndrost',
@@ -11,7 +14,12 @@ var message = {
 
 var app = {};
 app.server = 'http://parse.sfm8.hackreactor.com/chatterbox/classes/messages';
-app.init = function () {};
+app.init = function () {
+  // app.fetch();
+  $('.username').on('click', app.handleUsernameClick);
+  $('#send').on('submit', app.handleSubmit);
+};
+
 app.send = function(message) {
 
   $.ajax({
@@ -36,10 +44,14 @@ app.fetch = function() {
   // This is the url you should use to communicate with the parse API server.
     url: 'http://parse.sfm8.hackreactor.com/chatterbox/classes/messages',
     type: 'GET',
-    data: message,
+  //  data: message,
     contentType: 'application/json',
     success: function (data) {
+      console.dir(data);
       console.log('chatterbox: Message sent');
+      // for (var i = 0 ; i < data.results.length; i++) {
+      //   app.renderMessage(data.results[i]);
+      // }
     },
     error: function (data) {
       // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
@@ -56,7 +68,10 @@ app.clearMessages = function() {
 };
 
 app.renderMessage = function(message) {
+// var message = '<div>message.username: message.text</div>''
+ // $('$chats').append(message);
 
+  
   var $chat = $('<div></div>');
 
   var $message = $('<div></div>');
@@ -95,38 +110,15 @@ app.handleUsernameClick = function() {
 //   roomname: '4chan'
 // })
 
-$('.username').on('click', app.handleUsernameClick);
+// $('.username').on('click', app.handleUsernameClick);
 
 app.handleSubmit = function(event) {
   event.preventDefault();
   console.log(4);
 };
 
-$('#send .submit').on('submit', app.handleSubmit);
+// $('#send').on('submit', app.handleSubmit);
 
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// })
 
 
