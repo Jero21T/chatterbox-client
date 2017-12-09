@@ -14,8 +14,9 @@ var message = {
 
 var app = {};
 app.server = 'http://parse.sfm8.hackreactor.com/chatterbox/classes/messages';
+app.rooms = [];
 app.init = function () {
-  // app.fetch();
+  app.fetch();
   $('.username').on('click', app.handleUsernameClick);
   $('#send').on('submit', app.handleSubmit);
 };
@@ -30,6 +31,7 @@ app.send = function(message) {
     contentType: 'application/json',
     success: function (data) {
       console.log('chatterbox: Message sent');
+      
     },
     error: function (data) {
       // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
@@ -49,9 +51,13 @@ app.fetch = function() {
     success: function (data) {
       console.dir(data);
       console.log('chatterbox: Message sent');
-      // for (var i = 0 ; i < data.results.length; i++) {
-      //   app.renderMessage(data.results[i]);
-      // }
+      for (var i = data.results.length - 1; i >= 0; i--) {
+        app.renderMessage(data.results[i]);
+        if (!app.rooms.includes(data.results[i].roomname)) {
+          app.renderRoom(data.results[i].roomname);
+        }
+      }
+
     },
     error: function (data) {
       // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
@@ -76,7 +82,7 @@ app.renderMessage = function(message) {
 
   var $message = $('<div></div>');
   $message.html('<p>' + message.text + '</p>');
-  $message.addClass('chat');
+  $chat.addClass('chat');
   
   $username = $('<div></div>');
   $username.html('<p>' + message.username + '</p>');
@@ -93,32 +99,31 @@ app.renderMessage = function(message) {
 app.renderRoom = function(name) {
 
   var $name = $('<option>' + name + '</option>'); 
-   
-  $('#roomSelect').append($name);
 
+  $('#roomSelect').append($name);
+    
+  app.rooms.push(name);
 };
 
 app.handleUsernameClick = function() {
 
-
-
 };
 
-// app.renderMessage( {
-//   username: 'shawndrost',
-//   text: 'trololo',
-//   roomname: '4chan'
-// })
-
-// $('.username').on('click', app.handleUsernameClick);
 
 app.handleSubmit = function(event) {
   event.preventDefault();
-  console.log(4);
+  var message = {};
+  message.text = $('#message').val();
+  message.username = window.location.search.slice(window.location.search.indexOf('=')+1);
+ 
+  
+    
+
+
+
+
+
 };
 
-// $('#send').on('submit', app.handleSubmit);
-
-// })
 
 
