@@ -1,20 +1,12 @@
-// YOUR CODE HERE:
-
-// $.get('http://parse.sfm8.hackreactor.com/chatterbox/classes/messages')
 
 $(document).ready(function() {
   app.init();
 });
 
-var message = {
-  username: 'shawndrost',
-  text: 'trololo',
-  roomname: '4chan'
-};
-
 var app = {};
 app.server = 'http://parse.sfm8.hackreactor.com/chatterbox/classes/messages';
 app.rooms = [];
+
 app.init = function () {
   app.fetch();
   $('.username').on('click', app.handleUsernameClick);
@@ -24,7 +16,6 @@ app.init = function () {
 app.send = function(message) {
 
   $.ajax({
-  // This is the url you should use to communicate with the parse API server.
     url: 'http://parse.sfm8.hackreactor.com/chatterbox/classes/messages',
     type: 'POST',
     data: message,
@@ -34,7 +25,6 @@ app.send = function(message) {
       
     },
     error: function (data) {
-      // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
       console.error('chatterbox: Failed to send message', data);
     }
   });
@@ -43,10 +33,8 @@ app.send = function(message) {
 app.fetch = function() {
 
   $.ajax({
-  // This is the url you should use to communicate with the parse API server.
     url: 'http://parse.sfm8.hackreactor.com/chatterbox/classes/messages',
     type: 'GET',
-  //  data: message,
     contentType: 'application/json',
     success: function (data) {
       console.dir(data);
@@ -57,27 +45,19 @@ app.fetch = function() {
           app.renderRoom(data.results[i].roomname);
         }
       }
-
     },
     error: function (data) {
-      // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
       console.error('chatterbox: Failed to send message', data);
     }
   });
 };
 
-
 app.clearMessages = function() {
-
   $('#chats').empty();
-
 };
 
 app.renderMessage = function(message) {
-// var message = '<div>message.username: message.text</div>''
- // $('$chats').append(message);
 
-  
   var $chat = $('<div></div>');
 
   var $message = $('<div></div>');
@@ -90,6 +70,7 @@ app.renderMessage = function(message) {
   
   $chat.append($username);
   $chat.append($message);
+
   $('#chats').append($chat);
   
   $('.username').on('click', app.handleUsernameClick);
@@ -115,14 +96,6 @@ app.handleSubmit = function(event) {
   var message = {};
   message.text = $('#message').val();
   message.username = window.location.search.slice(window.location.search.indexOf('=')+1);
- 
-  
-    
-
-
-
-
-
 };
 
 
